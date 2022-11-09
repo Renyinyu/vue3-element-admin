@@ -1,3 +1,8 @@
-import axios from 'axios'
+import Http from './Http'
 
-export default axios
+const http = new Http({
+  baseURL: import.meta.env.VITE_APP_BASE_API,
+  timeout: 10 * 1000
+})
+
+export default http
