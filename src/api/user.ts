@@ -1,15 +1,12 @@
 import http from '@/utils/request'
+import { LoginParams, LoginResult } from '@/types'
 
-export function login(data: any) {
-  try {
-    return http.request({
-      url: '/vue-element-admin/user/login',
-      method: 'post',
-      data
-    })
-  } catch (error) {
-    return Promise.reject(error)
-  }
+export function login(data: LoginParams) {
+  return http.request<LoginResult>({
+    url: '/vue-element-admin/user/login',
+    method: 'post',
+    data
+  })
 }
 
 export function getInfo(token: string) {

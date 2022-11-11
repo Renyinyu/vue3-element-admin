@@ -1,11 +1,15 @@
 <script lang="ts" setup>
   import { reactive, ref } from 'vue'
+  import { useRouter, useRoute } from 'vue-router'
   import { User, Lock, Loading } from '@element-plus/icons-vue'
   import type { FormInstance } from 'element-plus'
   import useValidate from './useValidate'
   import { useUserStore } from '@/store/user'
+  import { ExtendObject } from '@/types'
 
   const userStore = useUserStore()
+  const router = useRouter()
+  const route = useRoute()
 
   const formRef = ref<FormInstance>()
 
@@ -17,16 +21,43 @@
 
   const { rules, validate } = useValidate()
 
+  /**
+   * 登录处理
+   * @param {FormInstance} formEl 
+   */
   const handleLogin = async (formEl: FormInstance | undefined) => {
     Loading.value = true
     try {
       const result = await validate(formEl)
-      console.log('login success,', result)
-      await userStore.login(form)
-    } catch (error) {
+      if (result) {
+        await userStore.login(form)
+        redirect()
+      }
+    } catch (error: any) {
       console.error(error)
     }
     Loading.value = false
+  }
+
+  /**
+   * 已登录的话，重定向
+   */
+  const redirect = () => {
+    console.log('redirect,', route)
+    
+    router.push({
+      path: route.query.redirect as string ?? '/',
+      query: getOtherQuery()
+    })
+  }
+
+  const getOtherQuery = () => {
+    return Object.keys(route.query).reduce((query, key) => {
+      if (key !== 'redirect') {
+        query[key] = route.query[key]
+      }
+      return query
+    }, {} as ExtendObject)
   }
 </script>
 

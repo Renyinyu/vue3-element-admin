@@ -45,11 +45,11 @@ class Http {
       (response) => {
         const user = useUserStore()
         const res = response.data
-        if (res.code !== 2000) {
-          ElMessage.error({
-            message: res.message || 'Error',
-            duration: 5 * 1000
-          })
+        if (res.code !== 20000) {
+          // ElMessage.error({
+          //   message: res.message || 'Error',
+          //   duration: 5 * 1000
+          // })
 
           if ([50008, 50012, 50014].includes(res.code)) {
             ElMessageBox.confirm(
