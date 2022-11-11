@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { login, logout, getInfo, test } from '@/api/user'
+import { login, logout, getInfo } from '@/api/user'
 
 export const useUserStore = defineStore('userStore', {
   state: () => ({
@@ -14,20 +14,27 @@ export const useUserStore = defineStore('userStore', {
     async login(userInfo: any) {
       try {
         const { username, password } = userInfo
-        // { username, password }
-        const response = await test()
+        const response = await login({ username, password }).catch()
         console.log('user data:', response)        
       } catch (error) {
         console.log(error)
       }
     },
 
-    getInfo() {},
+    getInfo() {
+      console.log('get info')
+    },
 
-    logout() {},
+    logout() {
+      console.log('logout')
+    },
 
-    resetToken() {},
+    resetToken() {
+      console.log('resetToken')
+    },
 
-    changeRoles() {},
+    changeRoles() {
+      console.log('changeRoles')
+    },
   }
 })

@@ -1,11 +1,15 @@
 import http from '@/utils/request'
 
 export function login(data: any) {
-  return http.request({
-    url: '/vue-element-admin/user/login',
-    method: 'post',
-    data
-  })
+  try {
+    return http.request({
+      url: '/vue-element-admin/user/login',
+      method: 'post',
+      data
+    })
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export function getInfo(token: string) {
@@ -23,9 +27,3 @@ export function logout() {
   })
 }
 
-export function test() {
-  return http.request({
-    url: '/api/get',
-    method: 'get'
-  })
-}
